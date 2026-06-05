@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>地球阿爸蓋被仔 3.0 - 探究氣候歷史真相</title>
+    <title>地球阿爸蓋被仔 6.0 - 歷史真相黃金組合</title>
     <style>
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
@@ -16,7 +16,7 @@
         }
 
         h1 { color: #2c3e50; margin-bottom: 5px; text-align: center; }
-        p.subtitle { color: #7f8c8d; margin-top: 0; text-align: center; max-width: 600px; }
+        p.subtitle { color: #7f8c8d; margin-top: 0; text-align: center; max-width: 600px; font-size: 14px; line-height: 1.4; }
 
         .info-bar {
             display: flex;
@@ -41,8 +41,8 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
         .stat { text-align: center; flex: 1; }
-        .stat-val { font-size: 26px; font-weight: bold; color: #2ecc71; transition: color 0.3s; }
-        .stat-label { font-size: 12px; color: #7f8c8d; margin-top: 5px; }
+        .stat-val { font-size: 26px; font-weight: bold; color: #2ecc71; transition: all 0.3s; }
+        .stat-label { font-size: 11px; color: #7f8c8d; margin-top: 5px; }
 
         .game-scene {
             width: 100%;
@@ -75,8 +75,8 @@
 
         .blanket {
             width: 180px;
-            height: 60px; /* 初始較薄 */
-            background: rgba(46, 204, 113, 0.4); /* 初始是健康的綠色自然溫室效應 */
+            height: 60px;
+            background: rgba(46, 204, 113, 0.4);
             border: 3px solid #2ecc71;
             border-radius: 15px 15px 0 0;
             position: absolute;
@@ -93,11 +93,12 @@
             padding: 15px;
             border-radius: 8px;
             margin-top: 15px;
-            min-height: 50px;
+            min-height: 70px;
             border-left: 5px solid #3498db;
             font-size: 14px;
             line-height: 1.5;
             color: #34495e;
+            box-sizing: border-box;
         }
 
         .controls {
@@ -121,10 +122,12 @@
         }
         button:active { transform: translateY(2px); }
         
-        .btn-bad { background-color: #e67e22; }
+        .btn-focus { background-color: #d35400; border: 2px solid #fff; } /* 兩大核心源 */
+        .btn-focus:hover { background-color: #e67e22; }
+        .btn-bad { background-color: #e67e22; opacity: 0.85; } /* 次要排放源 */
         .btn-bad:hover { background-color: #d35400; }
-        .btn-good { background-color: #3498db; }
-        .btn-good:hover { background-color: #2980b9; }
+        .btn-good { background-color: #7f8c8d; } /* 本局探究真相暫不需要環保政策，設為灰色作干擾項 */
+        .btn-good:hover { background-color: #95a5a6; }
 
         .overlay {
             display: none;
@@ -140,12 +143,12 @@
             padding: 30px;
             border-radius: 15px;
             text-align: center;
-            max-width: 500px;
+            max-width: 550px;
             width: 85%;
         }
         .result-box h2 { margin-top: 0; }
         .restart-btn {
-            background: #2ecc71;
+            background: #e67e22;
             color: white;
             padding: 10px 20px;
             border-radius: 5px;
@@ -158,26 +161,26 @@
 </head>
 <body>
 
-    <h1>🌍 地球阿爸蓋被仔 3.0</h1>
-    <p class="subtitle">探究任務：時光倒流到<b>工業革命前</b>。請隨意選擇人類歷史的發展 policy，經歷 6 回合，看看你最終創造的地球環境，能否解開「今日全球暖化」的真相？</p>
+    <h1>🌍 地球阿爸蓋被仔 6.0</h1>
+    <p class="subtitle"><b>探究任務：</b>歷史起點為 0°C。你<b>必須做出 6 次抉擇</b>。請嘗試找出當今現實世界<b>升溫 +1.20°C</b> 背後完整嘅人類活動結構。究竟各種產業分別貢獻咗幾多熱量？</p>
 
     <div class="info-bar">
         <span id="round-display">⏳ 剩餘歷史進程：6 / 6 回合</span>
-        <span id="status-tag" style="color:#2ecc71;">年代：工業革命前 (基準線)</span>
+        <span id="status-tag" style="color:#2ecc71;">年代：工業革命前基準</span>
     </div>
 
     <div class="dashboard">
         <div class="stat">
             <div class="stat-val" id="co2-display" style="color:#2ecc71;">280 ppm</div>
-            <div class="stat-label">CO₂ 濃度 (1750年基準: 280)</div>
+            <div class="stat-label">溫室氣體濃度 (基準: 280)</div>
         </div>
         <div class="stat">
             <div class="stat-val" id="temp-display" style="color:#2ecc71;">+0.00 °C</div>
-            <div class="stat-label">全球平均升溫</div>
+            <div class="stat-label">全球平均升溫 (目標: +1.20°C)</div>
         </div>
         <div class="stat">
             <div class="stat-val" id="thick-display" style="color:#2ecc71;">100%</div>
-            <div class="stat-label">被子厚度 (自然溫室效應)</div>
+            <div class="stat-label">被子厚度 (溫室效應強度)</div>
         </div>
     </div>
 
@@ -187,34 +190,37 @@
     </div>
 
     <div class="log-box" id="game-log">
-        <b>【歷史起點】</b>此時為18世紀工業革命前，溫室氣體濃度適中。這張「天然的被子」鎖住了適量的長波輻射，令地球阿爸睡得非常香甜。請點擊下方按鈕，推動歷史巨輪。
+        <b>【探究開始】</b>請連續做出 6 次抉擇。目標係令到第 6 回合結算時，溫度<b>不多不少剛好等於 +1.20°C</b> 才能破解真相！
     </div>
 
     <div class="controls" id="controls-section">
-        <button class="btn-bad" onclick="makeChoice('fossil')">🏭 工業化：依賴燃煤發電與重工業</button>
-        <button class="btn-bad" onclick="makeChoice('cattle')">🥩 全球化：大興密集式畜牧業（養牛）</button>
-        <button class="btn-bad" onclick="makeChoice('deforest')">🪓 土地利用：砍伐熱帶雨林改作農地</button>
-        <button class="btn-bad" onclick="makeChoice('landfill')">🗑️ 消費主義：全堆填無回收城市模式</button>
+        <button class="btn-focus" onclick="makeChoice('fossil')">🏭 能源：大量燃煤及化石燃料發電 (+0.30°C)</button>
+        <button class="btn-focus" onclick="makeChoice('cattle')">🥩 農業：大規模擴展肉牛放牧業 (+0.20°C)</button>
+        <button class="btn-bad" onclick="makeChoice('deforest')">🪓 土地：砍伐熱帶雨林改作農地 (+0.12°C)</button>
+        <button class="btn-bad" onclick="makeChoice('landfill')">🗑️ 城市：依賴堆填區處理固體廢物 (+0.08°C)</button>
 
-        <button class="btn-good" onclick="makeChoice('carbon-tax')">💰 嚴厲政策：全球徵收高額碳稅</button>
-        <button class="btn-good" onclick="makeChoice('efficiency')">💡 技術轉型：全面補貼綠色能源與節能</button>
-        <button class="btn-good" onclick="makeChoice('reforest')">🌱 生態保育：跨國大規模重新造林</button>
-        <button class="btn-good" onclick="makeChoice('green-farm')">🌾 農業改革：推廣低碳可持續素食農業</button>
+        <button class="btn-good" onclick="makeChoice('efficiency')">💡 技術：全面補貼綠能與節能 (-0.15°C)</button>
+        <button class="btn-good" onclick="makeChoice('reforest')">🌱 生態：跨國大規模重新造林 (-0.15°C)</button>
+        <button class="btn-good" onclick="makeChoice('carbon-tax')">💰 政策：全球徵收高額碳稅 (-0.10°C)</button>
+        <button class="btn-good" onclick="makeChoice('green-farm')">🌾 農業：推廣低碳可持續耕作 (-0.10°C)</button>
     </div>
 
     <div class="overlay" id="result-overlay">
         <div class="result-box">
             <h2 id="result-title">探究結果</h2>
             <p id="result-desc"></p>
-            <button class="restart-btn" onclick="resetGame()">重新探究歷史</button>
+            <button class="restart-btn" onclick="resetGame()">重新探究</button>
         </div>
     </div>
 
     <script>
         let currentRound = 6;
-        let co2 = 280; // 工業革命前真實數據
+        let co2 = 280; 
         let temp = 0.0;
         let blanketThickness = 100;
+
+        // 用作記錄玩家每項活動撳咗幾多次
+        let counter = { fossil: 0, cattle: 0, deforest: 0, landfill: 0, efficiency: 0, reforest: 0, tax: 0, farm: 0 };
 
         const roundEl = document.getElementById('round-display');
         const statusEl = document.getElementById('status-tag');
@@ -231,48 +237,41 @@
         function updateUI() {
             roundEl.innerText = `⏳ 剩餘歷史進程：${currentRound} / 6 回合`;
             co2El.innerText = `${co2} ppm`;
-            tempEl.innerText = `+${temp.toFixed(2)} °C`;
+            tempEl.innerText = `${temp >= 0 ? '+' : ''}${temp.toFixed(2)} °C`;
             thickEl.innerText = `${Math.round(blanketThickness)}%`;
 
             let baseHeight = 60;
             let newHeight = baseHeight * (blanketThickness / 100);
+            if (newHeight < 20) newHeight = 20;
             blanketEl.style.height = `${newHeight}px`;
 
-            // 根據溫度改變顏色與表情
+            // 動態調整顏色
+            let alpha = 0.2 + (blanketThickness / 250);
+            if(alpha > 0.7) alpha = 0.7;
+
             if (temp >= 1.2) {
                 earthEl.innerText = "🥵";
                 earthEl.style.backgroundColor = "#ff7675";
-                blanketEl.style.backgroundColor = "rgba(231, 76, 60, 0.6)";
+                blanketEl.style.backgroundColor = `rgba(231, 76, 60, ${alpha})`;
                 blanketEl.style.borderColor = "#d63031";
                 tempEl.style.color = "#d63031";
-                co2El.style.color = "#d63031";
-                statusEl.innerText = "年代：現代 (全球暖化嚴重)";
+                statusEl.innerText = "狀態：現代暖化時空";
                 statusEl.style.color = "#d63031";
             } else if (temp >= 0.5) {
                 earthEl.innerText = "😓";
                 earthEl.style.backgroundColor = "#ffeaa7";
-                blanketEl.style.backgroundColor = "rgba(230, 126, 34, 0.5)";
+                blanketEl.style.backgroundColor = `rgba(230, 126, 34, ${alpha})`;
                 blanketEl.style.borderColor = "#e67e22";
                 tempEl.style.color = "#e67e22";
-                co2El.style.color = "#e67e22";
-                statusEl.innerText = "年代：20世紀中葉 (暖化初現)";
+                statusEl.innerText = "狀態：暖化加劇中";
                 statusEl.style.color = "#e67e22";
-            } else if (temp <= -0.1) {
-                earthEl.innerText = "🥶";
-                earthEl.style.backgroundColor = "#a29bfe";
-                blanketEl.style.backgroundColor = "rgba(52, 152, 219, 0.3)";
-                blanketEl.style.borderColor = "#3498db";
-                tempEl.style.color = "#3498db";
-                statusEl.innerText = "年代：進入微型冰河期？";
-                statusEl.style.color = "#3498db";
             } else {
                 earthEl.innerText = "😊";
                 earthEl.style.backgroundColor = "#74b9ff";
                 blanketEl.style.backgroundColor = "rgba(46, 204, 113, 0.4)";
                 blanketEl.style.borderColor = "#2ecc71";
                 tempEl.style.color = "#2ecc71";
-                co2El.style.color = "#2ecc71";
-                statusEl.innerText = "年代：環境平衡期";
+                statusEl.innerText = "狀態：環境平衡";
                 statusEl.style.color = "#2ecc71";
             }
         }
@@ -283,37 +282,38 @@
 
             switch(action) {
                 case 'fossil':
-                    co2 += 25; temp += 0.25; blanketThickness += 15;
-                    logEl.innerHTML = "<b>【歷史抉擇：工業化】</b>工廠和發電廠大量燒煤，釋放 $CO_2$。這強化了<b>「增強的溫室效應（Enhanced Greenhouse Effect）」</b>，被子開始加厚！";
+                    co2 += 35; temp += 0.30; blanketThickness += 15; counter.fossil++;
+                    logEl.innerHTML = "<b>【🏭 工業與能源】</b>燃煤發電釋放大量 $CO_2$，佔全球排放大頭！大氣溫室效應顯著增強，被子明顯變厚。";
                     break;
                 case 'cattle':
-                    co2 += 10; temp += 0.20; blanketThickness += 12;
-                    logEl.innerHTML = "<b>【歷史抉擇：畜牧業】</b>為了應付全球肉類需求而大量養牛，釋放強烈溫室氣體——<b>甲烷（$CH_4$）</b>，被子加速變厚。";
+                    co2 += 25; temp += 0.20; blanketThickness += 12; counter.cattle++;
+                    logEl.innerHTML = "<b>【🥩 密集農業】</b>反芻動物釋放大量<b>甲烷 ($CH_4$)</b>。雖然釋放總量不及 $CO_2$，但其鎖熱能力（溫室效應潛能）極強！";
                     break;
                 case 'deforest':
-                    co2 += 20; temp += 0.18; blanketThickness += 10;
-                    logEl.innerHTML = "<b>【歷史抉擇：砍伐雨林】</b>大面積森林被清空。少了樹木（碳匯）吸碳，大氣中的 $CO_2$ 無法被自然移除，留喺大氣圈鎖熱。";
+                    co2 += 18; temp += 0.12; blanketThickness += 8; counter.deforest++;
+                    logEl.innerHTML = "<b>【🪓 土地利用變更】</b>砍伐雨林令大自然失去重要嘅「碳匯（Carbon Sink）」，大氣圈自我淨化溫室氣體嘅能力受損。";
                     break;
                 case 'landfill':
-                    co2 += 8; temp += 0.12; blanketThickness += 8;
-                    logEl.innerHTML = "<b>【歷史抉擇：垃圾堆填】</b>都市廢物在堆填區積聚，缺氧分解產生大量 $CH_4$，將更多長波輻射折射回地面。";
+                    co2 += 12; temp += 0.08; blanketThickness += 5; counter.landfill++;
+                    logEl.innerHTML = "<b>【🗑️ 都市固體廢物】</b>堆填區垃圾在缺氧環境下分解，持續產生並釋放溫室氣體甲烷 ($CH_4$)。";
                     break;
 
-                case 'carbon-tax':
-                    co2 -= 15; temp -= 0.12; blanketThickness -= 8;
-                    logEl.innerHTML = "<b>【歷史抉擇：強制減排】</b>歷史上提早推行碳稅，逼使全球轉型，大氣中的碳增加速度被壓制。";
-                    break;
+                // 減緩政策干擾項
                 case 'efficiency':
-                    co2 -= 12; temp -= 0.10; blanketThickness -= 6;
-                    logEl.innerHTML = "<b>【歷史抉擇：綠色科技】</b>人類主力研發節能與可再生能源，成功減少對化石燃料的依賴，減輕溫室效應。";
+                    co2 -= 15; temp -= 0.15; blanketThickness -= 8; counter.efficiency++;
+                    logEl.innerHTML = "<b>【環保政策】</b>提升能源效益，減少對發電廠嘅總體依賴，被子稍微變薄。";
                     break;
                 case 'reforest':
-                    co2 -= 20; temp -= 0.15; blanketThickness -= 10;
-                    logEl.innerHTML = "<b>【歷史抉擇：重新造林】</b>全球發起植樹，擴大「碳匯」，主動將大氣中的 $CO_2$ 鎖回植物體內。";
+                    co2 -= 18; temp -= 0.15; blanketThickness -= 8; counter.reforest++;
+                    logEl.innerHTML = "<b>【生態手段】</b>大規模重新造林，利用植物光合作用將大氣中嘅碳鎖回生物圈。";
+                    break;
+                case 'carbon-tax':
+                    co2 -= 10; temp -= 0.10; blanketThickness -= 5; counter.tax++;
+                    logEl.innerHTML = "<b>【行政手段】</b>實施碳稅，利用經濟誘因逼使重工業進行減排。";
                     break;
                 case 'green-farm':
-                    co2 -= 8; temp -= 0.08; blanketThickness -= 5;
-                    logEl.innerHTML = "<b>【歷史抉擇：生態農業】</b>轉向低碳飲食與有機耕作，減少了一氧化二氮 ($N_2O$) 及甲烷的排放。";
+                    co2 -= 8; temp -= 0.10; blanketThickness -= 5; counter.farm++;
+                    logEl.innerHTML = "<b>【農業改革】</b>推廣低碳耕作，減少氮肥與農業甲烷排放。";
                     break;
             }
 
@@ -327,19 +327,25 @@
         function endGame() {
             overlayEl.style.display = "flex";
             
-            // 核心探究結論判定
-            if (temp >= 1.1 && temp <= 1.6) {
-                resTitleEl.innerText = "🎯 成功解開歷史真相！";
+            // 考慮到 JavaScript 浮點數精度問題，用 0.01 誤差判定是否等於 1.20
+            let isPerfectTemp = Math.abs(temp - 1.20) < 0.01;
+            
+            // 檢查是否符合老師要求的「黃金組合」
+            let isGoldenCombination = (counter.fossil === 2 && counter.cattle === 2 && counter.landfill === 1 && counter.deforest === 1);
+
+            if (isPerfectTemp && isGoldenCombination) {
+                resTitleEl.innerText = "🎯 完美破解！解開氣候真相！";
                 resTitleEl.style.color = "#2ecc71";
-                resDescEl.innerHTML = `你最終模擬出的數據是：<b>${co2} ppm</b> 及升溫 <b>+${temp.toFixed(2)}°C</b>。<br><br><b>【地理科總結】</b>這極度接近我們<b>當前現實世界（2026年）</b>的真實數據（真實數據約為 420+ ppm / +1.2 至 +1.5°C）！<br>透過剛才的操作，學生能清楚明白：現在的全球暖化並非自然現象，而是近兩百年來人類不斷選擇工業化、濫伐林木、密集畜牧，令溫室氣體這張「被子」被<b>人為加厚</b>，阻擋了地面長波輻射逃逸而造成的結果！`;
-            } else if (temp > 1.6) {
-                resTitleEl.innerText = "🔥 創造了「極熱平行時空」";
-                resTitleEl.style.color = "#d63031";
-                resDescEl.innerHTML = `你最終升溫高達 <b>+${temp.toFixed(2)}°C</b>，遠遠超越了現實世界！<br><br><b>【探究啟示】</b>你瘋狂選擇了高碳排的發展路徑。這張人為加厚的「被子」把地球完全悶透。雖然這不是現在的真實狀況，但如果人類再不收斂，這就是我們的未來。`;
+                resDescEl.innerHTML = `你最終成功讓地球升溫 <b>+1.20°C</b>（溫室氣體 <b>${co2} ppm</b>）！<br><br><b>【地理科終極解密】</b><br>你成功拼湊出引致現代全球暖化嘅「黃金組合」：<br><b>2次化石燃料 + 2次肉牛放牧 + 1次濫伐林木 + 1次固體廢物處理</b>。<br><br><b>【核心概念鞏固】</b><br>呢個組合深刻揭示咗暖化嘅主次關係：<b>燃煤發電（二氧化碳）</b>同<b>肉牛放牧（甲烷）</b>貢獻咗其中足足 1.0°C 嘅增幅，係絕對嘅大頭；而<b>濫伐林木</b>同<b>垃圾堆填</b>則補上了最後嘅尾數。人類呢兩百年嘅社會運作，正正就是經由呢個產業結構，將溫室氣體這張「大被子」人為加厚，阻擋咗地面放射嘅<b>長波輻射（地面輻射）</b>，最終製造出今日升溫 +1.2°C 嘅危機！`;
+            } else if (isPerfectTemp && !isGoldenCombination) {
+                // 如果學生用其他湊數方法（例如4次燃煤+2次垃圾堆填 = 1.20）
+                resTitleEl.innerText = "⚠️ 雖然溫度對了，但這不是現實的歷史結構！";
+                resTitleEl.style.color = "#e67e22";
+                resDescEl.innerHTML = `你最終雖然湊出了 <b>+1.20°C</b>，但你使用嘅產業組合與現實歷史唔相符。<br><br><b>【探究提示】</b>在現實中，人類不可能單靠某一兩種活動就造就今日嘅局面。請重新思考：如果<b>化石燃料、肉牛放牧、濫伐林木、固體廢物</b>這四種主要人類活動都有參與，分別需要出現幾多次，先可以完美組成 +1.20°C？再試一次！`;
             } else {
-                resTitleEl.innerText = "🌿 創造了「烏托邦環保時空」";
-                resTitleEl.style.color = "#3498db";
-                resDescEl.innerHTML = `你最終升溫只有 <b>+${temp.toFixed(2)}°C</b>，成功保持了冷靜的地球。<br><br><b>【探究啟示】</b>這雖然是一個美好的結局，但它<b>不符合當前現實世界的現狀</b>。這說明了如果人類從一百年前就全力環保，我們本可以避免暖化。請再試一次，嘗試找出「為什麼今天現實世界的溫度會升高 $+1.2°C$ 以上」的人類活動組合！`;
+                resTitleEl.innerText = "❌ 探究失敗（數值未能匹配現實）";
+                resTitleEl.style.color = "#d63031";
+                resDescEl.innerHTML = `你完成了 6 回合決策，最終全球升溫為 <b>${temp >= 0 ? '+' : ''}${temp.toFixed(2)}°C</b>。<br><br>呢個數值未能精準還原現代世界嘅 +1.20°C 真相。請仔細觀察每個按鈕寫住嘅升溫數值（0.30、0.20、0.12、0.08），動動腦筋，點樣可以喺 6 回合入面，將佢哋組合成剛好 1.20°C？`;
             }
         }
 
@@ -348,8 +354,9 @@
             co2 = 280;
             temp = 0.0;
             blanketThickness = 100;
+            for (let key in counter) counter[key] = 0;
             overlayEl.style.display = "none";
-            logEl.innerHTML = "<b>【重新探究】</b>時光倒流回1750年。試下搭配不同的政策，引導學生找出通往現代溫度的「歷史真相」！";
+            logEl.innerHTML = "<b>【全新回合】</b>時光倒流回工業革命前。請點擊 6 次按鈕，尋找通往現代 +1.20°C 真相嘅唯一黃金組合！";
             updateUI();
         }
 
